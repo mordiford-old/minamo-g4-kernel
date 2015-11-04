@@ -31,7 +31,6 @@
 
 static DEFINE_MUTEX(l2bw_lock);
 
-
 static unsigned long arg_cpu_max_a53 = 1555200;
 
 static int __init cpufreq_read_cpu_max_a53(char *cpu_max_a53)
@@ -65,7 +64,6 @@ static int __init cpufreq_read_cpu_max_a57(char *cpu_max_a57)
 	return ret;
 }
 __setup("cpu_max_a57=", cpufreq_read_cpu_max_a57);
-
 
 static struct clk *cpu_clk[NR_CPUS];
 static struct clk *l2_clk;
