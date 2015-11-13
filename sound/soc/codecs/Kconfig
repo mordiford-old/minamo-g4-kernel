@@ -570,6 +570,7 @@ config SND_SOC_MSM_HDMI_CODEC_RX
 	help
 	HDMI audio drivers should be built only if the platform
         supports hdmi panel.
+
 config SND_SOC_SPKINFO
 	bool "spk info"
 	default n
@@ -587,3 +588,10 @@ config SND_LGE_HIDDEN_AUX
         default n
         help
         apply hidden aux scenario (no icon and device routing)
+
+config SOUND_CONTROL_HAX_3_GPL
+	tristate "new wcd93xx sound control hax"
+	default y
+	help
+	  FauxSound WCD93xx chipset sound control hacks 3.0 for deeper hax
+
