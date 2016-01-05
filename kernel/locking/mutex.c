@@ -1,5 +1,5 @@
 /*
- * kernel/locking/mutex.c
+ * kernel/mutex.c
  *
  * Mutexes: blocking mutual exclusion locks
  *
