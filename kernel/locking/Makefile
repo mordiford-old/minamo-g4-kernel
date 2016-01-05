@@ -1,5 +1,5 @@
 
-obj-y += mutex.o semaphore.o
+obj-y += mutex.o
 
 ifdef CONFIG_FUNCTION_TRACER
 CFLAGS_REMOVE_lockdep.o = -pg
