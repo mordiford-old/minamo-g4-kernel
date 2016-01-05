@@ -11,7 +11,6 @@
 #include <linux/user_namespace.h>
 #include <linux/securebits.h>
 #include <linux/seqlock.h>
-#include <linux/rbtree.h>
 #include <net/net_namespace.h>
 #include <linux/sched/rt.h>
 
@@ -156,14 +155,6 @@ extern struct task_group root_task_group;
 
 #define INIT_TASK_COMM "swapper"
 
-#ifdef CONFIG_RT_MUTEXES
-# define INIT_RT_MUTEXES(tsk)						\
-	.pi_waiters = RB_ROOT,						\
-	.pi_waiters_leftmost = NULL,
-#else
-# define INIT_RT_MUTEXES(tsk)
-#endif
-
 /*
  *  INIT_TASK is used to set up the first task table, touch at
  * your own risk!. Base=0, limit=0x1fffff (=2MB)
@@ -233,7 +224,6 @@ extern struct task_group root_task_group;
 	INIT_TASK_RCU_PREEMPT(tsk)					\
 	INIT_CPUSET_SEQ							\
 	INIT_VTIME(tsk)							\
-	INIT_RT_MUTEXES(tsk)						\
 }
 
 
