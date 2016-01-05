@@ -1169,8 +1169,7 @@ rt_mutex_slowlock(struct rt_mutex *lock, int state,
 		ret = __rt_mutex_slowlock(lock, state, timeout, &waiter);
 
 	if (unlikely(ret)) {
-		if (rt_mutex_has_waiters(lock))
-			remove_waiter(lock, &waiter);
+		remove_waiter(lock, &waiter);
 		rt_mutex_handle_deadlock(ret, chwalk, &waiter);
 	}
 
