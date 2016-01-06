@@ -65,14 +65,7 @@ struct cpufreq_interactive_cpuinfo {
 	bool reject_notification;
 	int governor_enabled;
 	struct cpufreq_interactive_tunables *cached_tunables;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	unsigned long *cpu_busy_times;
-=======
 	int first_cpu;
->>>>>>> parent of e5141c9... cpufreq: interactive: Replace per-cpu timer with per-policy timer
-=======
->>>>>>> c51fe1b81981899935c323fbed82fa21edd47aed
 };
 
 static DEFINE_PER_CPU(struct cpufreq_interactive_cpuinfo, cpuinfo);
@@ -523,40 +516,14 @@ static void cpufreq_interactive_timer(unsigned long data)
 	unsigned int loadadjfreq;
 	unsigned int index;
 	unsigned long flags;
-<<<<<<< HEAD
-	unsigned long max_cpu;
-	int i;
-	struct cpufreq_govinfo govinfo;
-=======
 	struct cpufreq_govinfo int_info;
 	u64 max_fvtime;
->>>>>>> parent of e5141c9... cpufreq: interactive: Replace per-cpu timer with per-policy timer
 
 	if (!down_read_trylock(&pcpu->enable_sem))
 		return;
 	if (!pcpu->governor_enabled)
 		goto exit;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	fcpu = cpumask_first(ppol->policy->related_cpus);
-=======
->>>>>>> c51fe1b81981899935c323fbed82fa21edd47aed
-	now = ktime_to_us(ktime_get());
-	spin_lock_irqsave(&ppol->load_lock, flags);
-	ppol->last_evaluated_jiffy = get_jiffies_64();
-
-	max_cpu = cpumask_first(ppol->policy->cpus);
-	for_each_cpu(i, ppol->policy->cpus) {
-		pcpu = &per_cpu(cpuinfo, i);
-		if (tunables->use_sched_load) {
-			cputime_speedadj = (u64)sched_get_busy(i) *
-				ppol->policy->cpuinfo.max_freq;
-			do_div(cputime_speedadj, tunables->timer_rate);
-		} else {
-			now = update_load(i);
-			delta_time = (unsigned int)
-=======
 	spin_lock_irqsave(&pcpu->load_lock, flags);
 	pcpu->last_evaluated_jiffy = get_jiffies_64();
 	now = update_load(data);
@@ -581,7 +548,6 @@ static void cpufreq_interactive_timer(unsigned long data)
 		do_div(cputime_speedadj, tunables->timer_rate);
 	} else {
 		delta_time = (unsigned int)
->>>>>>> parent of e5141c9... cpufreq: interactive: Replace per-cpu timer with per-policy timer
 				(now - pcpu->cputime_speedadj_timestamp);
 		cputime_speedadj = pcpu->cputime_speedadj;
 		spin_unlock_irqrestore(&pcpu->load_lock, flags);
@@ -1646,11 +1612,11 @@ show_store_gov_pol_sys(gpu_max_freq);
 
 #define gov_sys_attr_rw(_name)						\
 static struct global_attr _name##_gov_sys =				\
-__ATTR(_name, 0664, show_##_name##_gov_sys, store_##_name##_gov_sys)
+__ATTR(_name, 0644, show_##_name##_gov_sys, store_##_name##_gov_sys)
 
 #define gov_pol_attr_rw(_name)						\
 static struct freq_attr _name##_gov_pol =				\
-__ATTR(_name, 0664, show_##_name##_gov_pol, store_##_name##_gov_pol)
+__ATTR(_name, 0644, show_##_name##_gov_pol, store_##_name##_gov_pol)
 
 #define gov_sys_pol_attr_rw(_name)					\
 	gov_sys_attr_rw(_name);						\
@@ -1834,50 +1800,7 @@ static struct cpufreq_interactive_tunables *alloc_tunable(
 static struct cpufreq_interactive_tunables *restore_tunables(
 						struct cpufreq_policy *policy)
 {
-<<<<<<< HEAD
-	struct cpufreq_interactive_policyinfo *ppol =
-				per_cpu(polinfo, policy->cpu);
-	int i;
-
-	/* polinfo already allocated for policy, return */
-	if (ppol)
-		return ppol;
-
-	ppol = kzalloc(sizeof(*ppol), GFP_KERNEL);
-	if (!ppol)
-		return ERR_PTR(-ENOMEM);
-
-	init_timer_deferrable(&ppol->policy_timer);
-	ppol->policy_timer.function = cpufreq_interactive_timer;
-	init_timer(&ppol->policy_slack_timer);
-	ppol->policy_slack_timer.function = cpufreq_interactive_nop_timer;
-	spin_lock_init(&ppol->load_lock);
-	spin_lock_init(&ppol->target_freq_lock);
-	init_rwsem(&ppol->enable_sem);
-
-	for_each_cpu(i, policy->related_cpus)
-		per_cpu(polinfo, i) = ppol;
-	return ppol;
-}
-
-/* This function is not multithread-safe. */
-static void free_policyinfo(int cpu)
-{
-	struct cpufreq_interactive_policyinfo *ppol = per_cpu(polinfo, cpu);
-	int j;
-
-	if (!ppol)
-		return;
-
-	for_each_possible_cpu(j)
-		if (per_cpu(polinfo, j) == ppol)
-			per_cpu(polinfo, cpu) = NULL;
-	kfree(ppol->cached_tunables);
-	kfree(ppol);
-}
-=======
 	int cpu;
->>>>>>> parent of e5141c9... cpufreq: interactive: Replace per-cpu timer with per-policy timer
 
 	if (have_governor_per_policy())
 		cpu = cpumask_first(policy->related_cpus);
