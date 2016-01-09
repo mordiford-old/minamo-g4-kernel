@@ -34,7 +34,7 @@ set_progress(0.3);
 
 ################KERNEL PULL/EXTRACT
 ui_print("Pull the boot.img from your phone...");
-run_program("/sbin/busybox", "dd", "/dev/block/bootdevice/by-name/boot", "of=/tmp/boot.img");
+run_program("/sbin/busybox", "dd", "if=/dev/block/bootdevice/by-name/boot", "of=/tmp/boot.img");
 set_progress(0.5);
 
 ui_print("Extract boot.img...");
@@ -42,16 +42,16 @@ run_program("/tmp/unpackbootimg", "-i", "/tmp/boot.img", "-o", "/tmp/");
 set_progress(0.55);
 
 ################CMDLINE SETTINGS
-#ui_print("Applying cmdline settings...");
-#run_program("/tmp/cmdline.sh");
-#set_progress(0.6);
+ui_print("Applying cmdline settings...");
+run_program("/tmp/cmdline.sh");
+set_progress(0.6);
 
 ################UNMOUNT SYSTEM
 unmount("/system");
 set_progress(0.8);
 
 ################REPACK
-#ui_print("  changing the cmdline of the kernel...");
+ui_print("  changing the cmdline of the kernel...");
 ui_print("Installing kernel...");
 run_program("/tmp/mkbootimg.sh");
 set_progress(0.9);

@@ -48,7 +48,7 @@ function make_modules {
 }
 
 function make_dtb {
-		$REPACK_DIR/tools/dtbToolCM -2 -o $REPACK_DIR/$DTBIMAGE -s 2048 -p scripts/dtc/ arch/arm64/boot/
+		$REPACK_DIR/tools/dtbToolCM -2 -o $REPACK_DIR/$DTBIMAGE -s 2048 -p scripts/dtc/ arch/arm64/boot/dts/
 }
 
 function make_boot {
@@ -85,7 +85,7 @@ case "$echoice" in
 		break
 		;;
 	2 )
-		export CROSS_COMPILE=${HOME}/aarch64-linux-android-5.3-kernel/bin/aarch64-linux-android-
+		export CROSS_COMPILE=${HOME}/aarch64-linux-android-5.2-kernel/bin/aarch64-linux-android-
 		TC="UBER5.3"
 		echo
 		echo "Using UBERTC 5.3"
