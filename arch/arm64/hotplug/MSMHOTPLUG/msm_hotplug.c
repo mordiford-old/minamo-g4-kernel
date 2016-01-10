@@ -709,7 +709,7 @@ static ssize_t store_history_size(struct device *dev,
 	flush_workqueue(hotplug_wq);
 	cancel_delayed_work_sync(&hotplug_work);
 
-	memset(stats.load_hist, 0, sizeof(stats.load_hist));
+	memset(stats.load_hist, 0, sizeof(stats.hist_size));
 	stats.hist_size = val;
 
 	reschedule_hotplug_work();
