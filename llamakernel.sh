@@ -15,7 +15,7 @@ DTBIMAGE="dtb"
 DEFCONFIG="cyanogenmod_h815_defconfig"
 
 # Kernel Details
-VER=".R2.h815."
+VER=".R3-dts.h815."
 
 # Paths
 KERNEL_DIR=`pwd`
@@ -29,7 +29,7 @@ ZIMAGE_DIR="${HOME}/LlamaSweet-msm8992/arch/arm64/boot/"
 function clean_all {
 		rm -rf $MODULES_DIR/*
 		cd ~/LlamaSweet-msm8992/out/kernel
-		rm -rf $DTBIMAGE
+		rm -rf $DTBIMAGE zImage
 		cd $KERNEL_DIR
 		echo
 		make clean && make mrproper
@@ -48,7 +48,7 @@ function make_modules {
 }
 
 function make_dtb {
-		$REPACK_DIR/tools/dtbToolCM -2 -o $REPACK_DIR/$DTBIMAGE -s 2048 -p scripts/dtc/ arch/arm64/boot/dts/
+		$REPACK_DIR/tools/dtbToolCM -2 -o out/kernel/$DTBIMAGE -s 2048 -p scripts/dtc/ arch/arm64/boot/dts/
 }
 
 function make_boot {
