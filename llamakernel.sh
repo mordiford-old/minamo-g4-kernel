@@ -15,7 +15,7 @@ DTBIMAGE="dtb"
 DEFCONFIG="cyanogenmod_h815_defconfig"
 
 # Kernel Details
-VER=".R3-dts.h815."
+VER=".R3+.h815."
 
 # Paths
 KERNEL_DIR=`pwd`
