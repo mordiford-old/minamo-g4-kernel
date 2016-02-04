@@ -12,10 +12,9 @@ clear
 THREAD="-j$(grep -c ^processor /proc/cpuinfo)"
 KERNEL="Image"
 DTBIMAGE="dtb"
-DEFCONFIG="cyanogenmod_h815_defconfig"
 
 # Kernel Details
-VER=".R3++.h815."
+VER=".R4."$variant"."
 
 # Paths
 KERNEL_DIR=`pwd`
@@ -37,7 +36,7 @@ function clean_all {
 
 function make_kernel {
 		echo
-		make $DEFCONFIG
+		make $config
 		make $THREAD
 		
 }
@@ -73,6 +72,21 @@ echo "-----------------"
 echo "Making Llama Kernel:"
 echo "-----------------"
 echo -e "${restore}"
+
+echo "Pick variant..."
+select choice in h815 h811 
+do
+case "$choice" in
+	"h815")
+		variant="h815"
+		config="cyanogenmod_h815_defconfig"
+		break;;
+	"h811")
+		variant="h811"
+		config="cyanogenmod_h811_defconfig"
+		break;;
+esac
+done
 
 while read -p "Do you want to use UBERTC 4.9(1) or UBERTC 5.3(2)? " echoice
 do
