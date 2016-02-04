@@ -2,11 +2,11 @@
 
 set_progress(0.01);
 
-ui_print("-Checking Model ID");
-assert(getprop("ro.product.device") == "h815");
-ui_print("-Success!");
-ui_print("-Model ID - LG G4 International (h815)");
-ui_print("-Ok to proceed");
+#ui_print("-Checking Model ID");
+#assert(getprop("ro.product.device") == "h815",);
+#ui_print("-Success!");
+#ui_print("-Model ID - LG G4 International (h815)");
+#ui_print("-Ok to proceed");
 
 ifelse(is_mounted("/system") == "/system", unmount("/system"));
 ifelse(is_mounted("/cache") == "/cache", unmount("/cache"));
